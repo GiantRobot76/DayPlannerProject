@@ -15,18 +15,35 @@ $(document).ready(function () {
 
   //array used to preserve appointments in local storage on refresh
 
-  //functions
-  function setDate() {
-    var dateText = $("#currentDay");
-    dateText.text(moment().format("dddd MMM do, YYYY"));
-  }
+  //Set Date in Header
+
+  var dateText = $("#currentDay");
+  dateText.text(moment().format("dddd MMM do, YYYY"));
 
   function getTime() {
     var now = moment();
     var hour = now.format("k");
-    console.log(hour);
-    console.log(input9.dataset.value);
+    return hour;
   }
+
+  //Set styling classes based on current hour
+
+  var currentHr = parseInt(getTime());
+  $(".form-control").each(function () {
+    //travers DOM to get applicable hour ID. all elements of styleHr are in form of "hour - xx". Split by "-" to get the xx and cast as integer to get comparable num
+    var styleHr = parseInt(
+      $(this).parent().parent().parent().attr("id").split("-")[1]
+    );
+
+    //determine correct styling and apply
+    if (styleHr === currentHr) {
+      $(this).addClass("present");
+    } else if (styleHr < currentHr) {
+      $(this).addClass("past");
+    } else {
+      $(this).addClass("future");
+    }
+  });
 
   //Event Listeners
 
