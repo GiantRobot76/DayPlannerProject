@@ -1,51 +1,57 @@
-//Done: Create 9 - 5 Block Day Template Based on Mockup Using Bootstrap
-//Done: Make Fields Editable so that text describing appointment can be entered for each hour
-//TODO: Include a "save" button on each row so that input for that row can be saved to local memory
-//TODO: Link to (or download as applicable Moment.JS for use in date functions)
-//TODO: Determine Which Date Functions are applicable to this exercise and how to use.
-//TODO: Add Current Time and Date to Header
-//TODO: Color hours already passed during a given day in a different color
-
 //variable declarations
-var save9Btn = document.getElementById("save-9");
-var input9 = document.getElementById("9-input");
-var save10Btn = document.getElementById("save-10");
-var input10 = document.getElementById("10-input");
-var save11Btn = document.getElementById("save-11");
-var input11 = document.getElementById("11-input");
-var save12Btn = document.getElementById("save-12");
-var input12 = document.getElementById("12-input");
-var save1Btn = document.getElementById("save-1");
-var input1 = document.getElementById("1-input");
-var save2Btn = document.getElementById("save-2");
-var input2 = document.getElementById("2-input");
-var save3Btn = document.getElementById("save-3");
-var input3 = document.getElementById("3-input");
-var save4Btn = document.getElementById("save-4");
-var input4 = document.getElementById("4-input");
-var save5Btn = document.getElementById("save-5");
-var input5 = document.getElementById("5-input");
+$(document).ready(function () {
+  var input9 = document.getElementById("input9");
+  var input10 = document.getElementById("input10");
+  var input11 = document.getElementById("input11");
+  var input12 = document.getElementById("input12");
+  var input1 = document.getElementById("input1");
+  var input2 = document.getElementById("input2");
+  var input3 = document.getElementById("input3");
+  var input4 = document.getElementById("input4");
+  var input5 = document.getElementById("input5");
 
-var apptTxt;
-var apptHr;
+  var apptTxt;
+  var apptHr;
 
-//array used to preserve appointments in local storage on refresh
+  //array used to preserve appointments in local storage on refresh
 
-var appts = JSON.parse(localStorage.getItem("appointments")) || [];
+  //functions
+  function setDate() {
+    var dateText = $("#currentDay");
+    dateText.text(moment().format("dddd MMM do, YYYY"));
+  }
 
-for (var i = 0; i < appts.length; i++) {
-  console.log(appts[i].hour);
+  function getTime() {
+    var now = moment();
+    var hour = now.format("k");
+    console.log(hour);
+    console.log(input9.dataset.value);
+  }
 
-  var hrToRender = appts[i].hour;
-  var apptToRender = appts[i].appointment;
-  var lookupStrng = "data-hour=" + hrToRender;
-  console.log(lookupStrng);
-  //   $('.input-group').find()
-}
+  //Event Listeners
 
-save9Btn.addEventListener("click", function () {
-  apptTxt = input9.value;
-  apptHr = 9;
-  appts.push({ hour: apptHr, appointment: apptTxt });
-  localStorage.setItem("appointments", JSON.stringify(appts));
+  //One Event Listener for All Save Buttons
+  $(".btn-primary").on("click", function () {
+    //traverse dom to get to associated text input and assign to variable
+    apptTxt = $(this).parent().siblings().eq(1).children().children().val();
+
+    //traverse dom to get associated id to identify hour
+    apptHr = $(this).parent().parent().attr("id");
+
+    //add key:value to local storage
+    localStorage.setItem(apptHr, apptTxt);
+    console.log(apptHr);
+    console.log(apptTxt);
+  });
+
+  //Display Items in Local Memory on Planner
+  $("#input9").val(localStorage.getItem("hour-9"));
+  $("#input10").val(localStorage.getItem("hour-10"));
+  $("#input11").val(localStorage.getItem("hour-11"));
+  $("#input12").val(localStorage.getItem("hour-12"));
+  $("#input1").val(localStorage.getItem("hour-13"));
+  $("#input2").val(localStorage.getItem("hour-14"));
+  $("#input3").val(localStorage.getItem("hour-15"));
+  $("#input4").val(localStorage.getItem("hour-16"));
+  $("#input5").val(localStorage.getItem("hour-17"));
 });
