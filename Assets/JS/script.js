@@ -18,7 +18,7 @@ $(document).ready(function () {
   //Set Date in Header
 
   var dateText = $("#currentDay");
-  dateText.text(moment().format("dddd MMM do, YYYY"));
+  dateText.text(moment().format("dddd, MMMM Do YYYY"));
 
   function getTime() {
     var now = moment();
